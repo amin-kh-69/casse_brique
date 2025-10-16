@@ -23,5 +23,7 @@ class Brique:
         self.largeur = largeur
         self.hauteur = hauteur
         self.couleur = couleur
-        self.id = self.canvas.create_rectangle(self.x, self.y, self.x + self.largeur, self.y + self.hauteur, fill=self.couleur)
-        self.active = True
+        self.id = self.canvas.create_rectangle(x, y, x + largeur, y + hauteur, fill = couleur, outline = 'white')
+
+    def detruire(self) :
+        self.canvas.delete(self.id)
