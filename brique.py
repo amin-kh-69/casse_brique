@@ -1,11 +1,11 @@
 """
 Casse-Brique - TP4 Souleymane ghamhi , Amin kouhouch CPE - 3ETI 2025-2026
 
-Version améliorée :
+Version finale de cettte partie du code 
 
-Ajout de 3 classes : Balle, Raquette, Brique
+Ajout de la classes Brique
 Jeu orientée objet
-Jeu complet fonctionnel sous Tkinter interface grapique vu en cours 
+Jeu avec tkinter 
 
 """
 
