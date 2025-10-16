@@ -11,6 +11,19 @@ class Balle:
         self.color = couleur
         self.radius = rayon
         self.lost = False
+    
+    def mouvement(self, largeur_c, hauteur_c):
+
+        self.x, self.y += vx, vy
+
+        if self.x < 0 or self.x > largeur_c:
+            self.x = -self.x
+
+        if self.y < 0:
+            self.y = -self.y
+            
+        if  self.y > hauteur_c:
+            self.lost = True
 
 
 
