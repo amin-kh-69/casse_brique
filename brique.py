@@ -7,6 +7,8 @@ Ajout de la classes Brique
 Jeu orientée objet
 Jeu avec tkinter 
 
+il reste a tester le programmme pour voir les problemmes et tester ainsi le jeu au complet 
+
 """
 
 import tkinter as tk
