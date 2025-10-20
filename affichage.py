@@ -13,6 +13,8 @@ class Affichage:
         self.root = tk.Tk()
         self.canva = tk.Canvas(self.root, width = largeur, height = hauteur, bg = 'white')
         self.canva.pack()
+        self.largeur = largeur
+        self.hauteur = hauteur
 
     def balle_affichage(self, balle):
 
@@ -32,8 +34,9 @@ class Affichage:
     
     def brique_affichage(self, brique):
 
-        for i in range(5):
-            for j in range (10):
-                brique.x = 60 + j * 70
-
+        self.brique = self.canva.create_rectangle(
+            brique.x, brique.y,
+            brique.x + brique.largeur, brique.y + brique.hauteur,
+            fill = brique.couleur
+        )
 
