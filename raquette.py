@@ -1,5 +1,7 @@
-"""Amin Kouhouch 3ETI Jeudi 16 Octobre
+"""Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
 Ce fichier python contient la classe de la raquette
+
+Il ne reste normalement rien à faire
 """
 
 class Raquette:
