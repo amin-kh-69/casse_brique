@@ -3,47 +3,66 @@ Ce fichier contient la classe d'affichage du jeu du casse_brique
 
 Il reste à tester le programme pour voir les potentiels problèmes
 """
+from jeu import CasseBrique
 import tkinter as tk
-from balle import Balle
-from brique import Brique
-from raquette import Raquette
+import random
+import math
 
 
-class Affichage:
-
-    def __init__(self, largeur, hauteur):
-
+class AffichageMenuAnimé:
+    def __init__(self):
         self.root = tk.Tk()
-        self.canva = tk.Canvas(self.root, width = largeur, height = hauteur, bg = 'white')
-        self.canva.pack()
-        self.width = largeur
-        self.height = hauteur
+        self.root.title("Menu Casse-Brique")
+        self.root.geometry("800x600")
+        self.root.configure(bg='black')
 
-    def balle_affichage(self, balle):
+        # Canvas pour l'animation
+        self.canvas = tk.Canvas(self.root, width=800, height=600, bg='black', highlightthickness=0)
+        self.canvas.pack(fill="both", expand=True)
 
-        self.balle = self.canva.create_oval(
-            balle.x - balle.radius, balle.y - balle.radius,
-            balle.x + balle.radius, balle.y + balle.radius,
-            fill = balle.color
-            )
-        return self.balle
-        
-    def raquette_affichage(self, raquette):
+        # Titre du jeu
+        self.titre = self.canvas.create_text(400, 100, text="CASSE-BRIQUE", font=("Helvetica", 48, "bold"), fill="white")
 
-        self.raquette = self.canva.create_rectangle(
-            raquette.x, raquette.y,
-            raquette.x + raquette.width, raquette.y + raquette.height,
-            fill = raquette.color
-        )
-        return self.raquette
-    
-    def brique_affichage(self, brique):
+        # Boutons Jouer et Quitter
+        self.bouton_jouer = tk.Button(self.root, text="Jouer", font=("Helvetica", 24), width=10, command=self.lancer_jeu)
+        self.bouton_quitter = tk.Button(self.root, text="Quitter", font=("Helvetica", 24), width=10, command=self.root.destroy)
 
-        self.brique = self.canva.create_rectangle(
-            brique.x, brique.y,
-            brique.x + brique.width, brique.y + brique.height,
-            fill = brique.color
-        )
-        return self.brique
-    
+        # Position boutons sur le canvas
+        self.canvas.create_window(400, 300, window=self.bouton_jouer)
+        self.canvas.create_window(400, 400, window=self.bouton_quitter)
 
+        # Création des briques animées
+        self.briques = []
+        couleurs = ['#FF6666', '#FFB266', '#FFFF66', '#66FF66', '#66FFFF']
+        for _ in range(20):
+            x = random.randint(50, 750)
+            y = random.randint(150, 550)
+            largeur = random.randint(40, 60)
+            hauteur = 20
+            couleur = random.choice(couleurs)
+            dx = random.choice([-2, -1, 1, 2])
+            dy = random.choice([-1, 1])
+            rect = self.canvas.create_rectangle(x, y, x+largeur, y+hauteur, fill=couleur, outline="white")
+            self.briques.append({"id": rect, "dx": dx, "dy": dy})
+
+        self.animer_briques()
+        self.root.mainloop()
+
+    def animer_briques(self):
+        for b in self.briques:
+            self.canvas.move(b["id"], b["dx"], b["dy"])
+            coords = self.canvas.coords(b["id"])
+            # Rebond sur les murs
+            if coords[0] <= 0 or coords[2] >= 800:
+                b["dx"] = -b["dx"]
+            if coords[1] <= 120 or coords[3] >= 580:
+                b["dy"] = -b["dy"]
+        self.root.after(50, self.animer_briques)
+
+    def lancer_jeu(self):
+        self.root.destroy()
+        CasseBrique()
+
+
+if __name__ == "__main__":
+    AffichageMenuAnimé()
