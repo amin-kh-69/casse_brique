@@ -1,5 +1,7 @@
-"""Amin Kouhouch, 3ETI Jeudi 16 Octobre
+"""Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
 Ce fichier contient la classe de la balle du jeu de casse briques
+
+Il reste à tester le programme pour voir les potentiels problèmes
 """
 
 class Balle:
@@ -14,16 +16,18 @@ class Balle:
     
     def mouvement(self, largeur_c, hauteur_c):
 
-        self.x, self.y += vx, vy
+        self.x += self.vx
+        self.y += self.vy
 
         if self.x < 0 or self.x > largeur_c:
             self.x = -self.x
 
         if self.y < 0:
             self.y = -self.y
-            
+
         if  self.y > hauteur_c:
             self.lost = True
+
 
 
 
