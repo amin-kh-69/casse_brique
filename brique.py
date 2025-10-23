@@ -21,7 +21,7 @@ class Brique:
     def __init__(self, x, y, largeur, hauteur, couleur = 'orange') :
         self.x = x
         self.y = y
-        self.largeur = largeur
-        self.hauteur = hauteur
-        self.couleur = couleur
-        self.detruite = False
+        self.width = largeur
+        self.height = hauteur
+        self.color = couleur
+        self.destroyed = False
