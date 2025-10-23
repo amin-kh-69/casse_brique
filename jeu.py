@@ -14,7 +14,7 @@ from brique import Brique
 class jeu:
     def __init__(self):
         self.affichage = Affichage(500, 700)
-        self.raquette = Raquette(300, 500, 20, 100, 15, 'blue')
+        self.raquette = Raquette(300, 500, 20, 15, 100, 'blue')
         self.balle = Balle(400, 300, 3, 3, 5, 'red')
         self.brique = [Brique(x * self.affichage.height//10 + 30, y * 30 + 50, self.affichage.width//10, 20) for x in range(10) for y in range(5)]
         self.affichage.root.bind("<Left>", self.gauche)
