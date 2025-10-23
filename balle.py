@@ -18,15 +18,20 @@ class Balle:
 
         self.x += self.vx
         self.y += self.vy
+         
+        if self.x - self.radius <= 0 or self.x + self.radius >= largeur_c:
+            self.vx = -self.vx
+        if self.y - self.radius <= 0:
+            self.vy = -self.vy
 
-        if self.x < 0 or self.x > largeur_c:
-            self.x = -self.x
-
-        if self.y < 0:
-            self.y = -self.y
-
-        if  self.y > hauteur_c:
+        if self.y + self.radius >= hauteur_c:
             self.lost = True
+
+    def collision_raquette(self, raquette):
+        
+        if (self.y + self.radius >= raquette.y and
+            raquette.x <= self.x <= raquette.x + raquette.width):
+            self.vy = -abs(self.vy) 
 
 
 
