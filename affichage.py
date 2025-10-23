@@ -26,6 +26,7 @@ class Affichage:
             balle.x + balle.radius, balle.y + balle.radius,
             fill = balle.color
             )
+        return self.balle
         
     def raquette_affichage(self, raquette):
 
@@ -34,6 +35,7 @@ class Affichage:
             raquette.x + raquette.width, raquette.y + raquette.height,
             fill = raquette.color
         )
+        return self.raquette
     
     def brique_affichage(self, brique):
 
@@ -42,4 +44,6 @@ class Affichage:
             brique.x + brique.width, brique.y + brique.height,
             fill = brique.color
         )
+        return self.brique
+    
 

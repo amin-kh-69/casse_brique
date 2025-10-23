@@ -16,7 +16,7 @@ class jeu:
         self.affichage = Affichage()
         self.raquette = Raquette(300, 500, 20, 100, 15, 'blue')
         self.balle = Balle(400, 300, 3, 3, 5, 'red')
-        self.brique = [Brique(x * self.affichage.largeur//10 + 30, y * 30 + 50, self.affichage.largeur//10, 20) for x in range(10) for y in range(5)]
+        self.brique = [Brique(x * self.affichage.height//10 + 30, y * 30 + 50, self.affichage.width//10, 20) for x in range(10) for y in range(5)]
         self.affichage.root.bind("<Left>", self.gauche)
         self.affichage.root.bind("<Right>", self.droite)
 
@@ -48,14 +48,29 @@ class jeu:
             self.balle.vy = -self.balle.vy
 
         for brique in self.brique:
-            if brique.detruite == False:
-                if brique.x <= self.balle.x <= brique.x + self.affichage.largeur//10 and brique.y <= self.balle.y <= brique.y + brique.hauteur:
-                    brique.detruite = True
+            if brique.destroyed == False:
+                if brique.x <= self.balle.x <= brique.x + self.affichage.width//10 and brique.y <= self.balle.y <= brique.y + brique.height:
+                    brique.destroyed = True
                     self.balle.vy = -self.balle.vy
                     break
         
         self.affichage.canva.after(20, self.verif_collisions)
-    
+
+    def boucle_principale(self):
+        self.affichage.balle_affichage(self.balle)
+        self.affichage.raquette_affichage(self.raquette)
+        for brique in self.brique:
+            self.affichage.brique_affichage(brique)
+        
+        self.limites_raquette()
+        self.mouv_balle()
+        self.verif_collisions()
+        self.affichage.root.mainloop()
+
+if __name__ == "__main__":
+    jeu_instance = jeu()
+    jeu_instance.boucle_principale()
+
 
 
 
