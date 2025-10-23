@@ -11,15 +11,17 @@ il reste a tester le programmme pour voir les problemmes et tester ainsi le jeu 
 
 """
 
-import tkinter as tk
-
 # Classe Brique
 
 class Brique:
-    def __init__(self, x, y, largeur, hauteur, couleur = 'orange') :
+    def __init__(self, canvas, x, y, largeur, hauteur, couleur = 'orange') :
+        self.canvas = canvas
         self.x = x
         self.y = y
-        self.width = largeur
-        self.height = hauteur
-        self.color = couleur
-        self.destroyed = False
+        self.largeur = largeur
+        self.hauteur = hauteur
+        self.couleur = couleur
+        self.id = self.canvas.create_rectangle(x, y, x + largeur, y + hauteur, fill = couleur, outline = 'white')
+
+    def detruire(self) :
+        self.canvas.delete(self.id)
