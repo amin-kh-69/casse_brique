@@ -1,7 +1,7 @@
 """ Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
 Ce fichier python contient le code du jeu du cassse briques
 
-Il reste à coder la boucle principale du projet et régler les potentiels problèmes
+Il reste à tester le programme pour voir les potentiels problèmes
 """
 
 import tkinter as tk
@@ -11,112 +11,62 @@ from raquette import Raquette
 from balle import Balle
 from brique import Brique
 
-class Jeu:
+class CasseBrique:
     def __init__(self):
-        # --- Initialisation des objets principaux ---
-        self.affichage = Affichage(500, 700)
-        self.raquette = Raquette(300, 500, 20, 15, 100, 'blue')
-        self.balle = Balle(400, 300, 3, 3, 5, 'red')
+        self.root = tk.Tk()
+        self.root.title('Casse-Brique - CPE 3ETI')
+        self.canvas = tk.Canvas(self.root, width=800, height=600, bg='black')
+        self.canvas.pack()
 
-        # Création des briques
-        self.brique = [
-            Brique(x * (self.affichage.width // 10) + 30, y * 30 + 50,
-                   self.affichage.width // 10 - 10, 20)
-            for x in range(10)
-            for y in range(5)
-        ]
+        self.briques = []
+        self._creer_briques()
+        self.raquette = Raquette(self.canvas)
+        self.balle = Balle(self.canvas, self.raquette, self.briques)
 
-        # --- Gestion des touches ---
-        self.affichage.root.bind("<Left>", self.gauche)
-        self.affichage.root.bind("<Right>", self.droite)
-        self.affichage.root.bind("<KeyRelease>", self.stop)
+        self.score = 0
+        self.vies = 3
+        self.label = tk.Label(self.root, text=f'Score: {self.score}   Vies: {self.vies}', font=('Arial', 12))
+        self.label.pack()
 
-    # --- Déplacements raquette ---
-    def gauche(self, event=None):
-        self.raquette.direction = -1
-   
-    def droite(self, event=None):
-        self.raquette.direction = 1
+        self.root.bind('<Left>', lambda e: self.raquette.set_direction(-1))
+        self.root.bind('<Right>', lambda e: self.raquette.set_direction(1))
+        self.root.bind('<KeyRelease>', self.raquette.stop)
 
-    def stop(self, event=None):
-        self.raquette.direction = 0
+        self._loop()
+        self.root.mainloop()
 
-    def limites_raquette(self):
-        position = self.affichage.canva.coords(self.affichage.raquette)
+    def _creer_briques(self):
+        couleurs = ['#FF6666', '#FFB266', '#FFFF66', '#66FF66', '#66FFFF']
+        for i in range(5):
+            for j in range(10):
+                x = 60 + j * 70
+                y = 50 + i * 25
+                b = Brique(self.canvas, x, y, 60, 20, couleur=couleurs[i % len(couleurs)])
+                self.briques.append(b)
 
-        # Limites gauche/droite
-        if (position[0] + self.raquette.direction * self.raquette.vx < 0 or
-            position[2] + self.raquette.direction * self.raquette.vx > int(self.affichage.canva['width'])):
-            self.raquette.direction = 0
+    def _loop(self):
+        self.raquette.deplacer()
+        self.balle.move()
 
-        # Déplacement de la raquette
-        self.affichage.canva.move(
-            self.affichage.raquette,
-            self.raquette.vx * self.raquette.direction, 0
-        )
+        if self.balle.lost:
+            self.vies -= 1
+            if self.vies == 0:
+                self._fin_jeu('Perdu !')
+                return
+            else:
+                self.canvas.delete(self.balle.id)
+                self.balle = Balle(self.canvas, self.raquette, self.briques)
 
-        self.affichage.canva.after(20, self.limites_raquette)
+        if len(self.briques) == 0:
+            self._fin_jeu('Victoire !')
+            return
 
-    # --- Déplacement balle ---
-    def mouv_balle(self):
-        self.affichage.canva.move(self.affichage.balle, self.balle.vx, self.balle.vy)
-        coords = self.affichage.canva.coords(self.affichage.balle)
-        self.balle.x = (coords[0] + coords[2]) / 2
-        self.balle.y = (coords[1] + coords[3]) / 2
+        self.label.config(text=f'Score: {self.score + (50 * (50 - len(self.briques)))}   Vies: {self.vies}')
+        self.root.after(15, self._loop)
 
-        # Rebonds sur les murs
-        if self.balle.x - self.balle.radius <= 0 or self.balle.x + self.balle.radius >= self.affichage.width:
-            self.balle.vx = -self.balle.vx
-        if self.balle.y - self.balle.radius <= 0:
-            self.balle.vy = -self.balle.vy
-
-        # Si la balle tombe : reset
-        if self.balle.y > self.affichage.height:
-            self.balle.lost = True
-
-        self.affichage.canva.after(20, self.mouv_balle)
-
-    # --- Gestion des collisions ---
-    def verif_collisions(self):
-        # Collision balle - raquette
-        #if (
-        #    self.balle.y + self.balle.radius >= self.raquette.y and
-        #    self.raquette.x <= self.balle.x <= self.raquette.x + self.raquette.width
-        #):
-        #    self.balle.vy = -abs(self.balle.vy)
-
-        # Collision balle - briques
-        for brique in self.brique:
-            if not brique.destroyed:
-                if (brique.x <= self.balle.x <= brique.x + brique.width and
-                    brique.y <= self.balle.y <= brique.y + brique.height):
-                    brique.destroyed = True
-                    self.affichage.canva.delete(brique.forme)
-                    self.balle.vy = -self.balle.vy
-                    break
-       
-        self.affichage.canva.after(20, self.verif_collisions)
-
-    # --- Boucle principale du jeu ---
-    def boucle_principale(self):
-        while self.balle.lost == False:
-            self.affichage.balle_affichage(self.balle)
-            self.affichage.raquette_affichage(self.raquette)
-            for brique in self.brique:
-               self.affichage.brique_affichage(brique)
-       
-            self.limites_raquette()
-            self.mouv_balle()
-            self.verif_collisions()
-            self.affichage.root.mainloop()
-            
+    def _fin_jeu(self, msg):
+        self.canvas.create_text(400, 300, text=msg, fill='white', font=('Helvetica', 36))
 
 
-if __name__ == "__main__":
-    jeu_instance = Jeu()
-    jeu_instance.boucle_principale()
-
-
-
-
-
+if __name__ == '__main__':
+    CasseBrique()
