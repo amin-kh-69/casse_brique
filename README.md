@@ -22,10 +22,12 @@ La balle rebondit sur les murs, la raquette et parfois sur les bords supérieurs
 
 Briques simples : se détruisent en un seul impact.
 
-lien Git : https://github.com/amin-kh-69/casse_brique.git
 
 🏆 Fin de partie
 
 La partie est gagnée lorsque toutes les briques destructibles ont disparu.
 
 Elle est perdue si la balle tombe en dehors de la zone de jeu .
+
+
+lien Git : https://github.com/amin-kh-69/casse_brique.git
