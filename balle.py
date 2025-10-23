@@ -1,38 +1,52 @@
 """Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
 Ce fichier contient la classe de la balle du jeu de casse briques
-on definit la position la vitesse la couleur et le rayon de la balle 
+
 
 """
+import random
+import tkinter as tk
 
 class Balle:
-    def __init__(self, x, y, vx, vy, rayon, couleur):
-        self.x = x
-        self.y = y
-        self.vx = vx 
-        self.vy = vy
-        self.color = couleur
-        self.radius = rayon
+    def __init__(self, canvas, raquette, briques, couleur='red'):
+        self.canvas = canvas
+        self.raquette = raquette
+        self.briques = briques
+        self.couleur = couleur
+        self.id = self.canvas.create_oval(390, 350, 410, 370, fill=couleur)
+        self.vx = random.choice([-3, 3])
+        self.vy = -3
         self.lost = False
-    
-    def mouvement(self, largeur_c, hauteur_c):
 
-        self.x += self.vx
-        self.y += self.vy
-         
-        if self.x - self.radius <= 0 or self.x + self.radius >= largeur_c:
+    def move(self):
+        self.canvas.move(self.id, self.vx, self.vy)
+        pos = self.canvas.coords(self.id)
+
+        # rebond sur murs
+        if pos[0] <= 0 or pos[2] >= int(self.canvas['width']):
             self.vx = -self.vx
-        if self.y - self.radius <= 0:
+        if pos[1] <= 0:
             self.vy = -self.vy
 
-        if self.y + self.radius >= hauteur_c:
+        # touche le bas
+        if pos[3] >= int(self.canvas['height']):
             self.lost = True
 
-    def collision_raquette(self, raquette):
-        
-        if (self.y + self.radius >= raquette.y and
-            raquette.x <= self.x <= raquette.x + raquette.width):
-            self.vy = -abs(self.vy) 
-            
+        # collision avec raquette
+        if self._collision(self.raquette.id):
+            self.vy = -abs(self.vy)
+
+        # collision avec briques
+        for brique in list(self.briques):
+            if self._collision(brique.id):
+                self.vy = -self.vy
+                brique.detruire()
+                self.briques.remove(brique)
+
+    def _collision(self, obj_id):
+        pos_balle = self.canvas.coords(self.id)
+        pos_obj = self.canvas.coords(obj_id)
+        return not (pos_balle[2] < pos_obj[0] or pos_balle[0] > pos_obj[2] or pos_balle[3] < pos_obj[1] or pos_balle[1] > pos_obj[3])
+
 
 
 
