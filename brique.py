@@ -12,8 +12,6 @@ il reste a tester le programmme pour voir les problemmes et tester ainsi le jeu 
 """
 
 import tkinter as tk
-import random
-import math
 
 # Classe Brique
 
