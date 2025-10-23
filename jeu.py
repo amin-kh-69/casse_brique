@@ -6,7 +6,6 @@ Il reste à tester le programme pour voir les potentiels problèmes
 
 import tkinter as tk
 import random
-from affichage import Affichage
 from raquette import Raquette
 from balle import Balle
 from brique import Brique
