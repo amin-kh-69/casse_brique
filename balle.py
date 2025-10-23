@@ -32,6 +32,8 @@ class Balle:
         if (self.y + self.radius >= raquette.y and
             raquette.x <= self.x <= raquette.x + raquette.width):
             self.vy = -abs(self.vy) 
+            
+
 
 
 

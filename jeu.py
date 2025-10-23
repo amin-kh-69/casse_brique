@@ -79,11 +79,11 @@ class Jeu:
     # --- Gestion des collisions ---
     def verif_collisions(self):
         # Collision balle - raquette
-        if (
-            self.balle.y + self.balle.radius >= self.raquette.y and
-            self.raquette.x <= self.balle.x <= self.raquette.x + self.raquette.width
-        ):
-            self.balle.vy = -abs(self.balle.vy)
+        #if (
+        #    self.balle.y + self.balle.radius >= self.raquette.y and
+        #    self.raquette.x <= self.balle.x <= self.raquette.x + self.raquette.width
+        #):
+        #    self.balle.vy = -abs(self.balle.vy)
 
         # Collision balle - briques
         for brique in self.brique:
