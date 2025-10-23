@@ -1,5 +1,7 @@
 """Amin Kouhouch, 3ETI Jeudi 16 Octobre
 Ce fichier contient la classe de la balle du jeu de casse briques
+on defini la position la vitesse la couleur et le rayon de la balle 
+
 """
 
 class Balle:
