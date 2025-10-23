@@ -22,6 +22,7 @@ La balle rebondit sur les murs, la raquette et parfois sur les bords supérieurs
 
 Briques simples : se détruisent en un seul impact.
 
+lien Git : https://github.com/amin-kh-69/casse_brique.git
 
 🏆 Fin de partie
 
