@@ -4,6 +4,9 @@ Ce fichier contient la classe d'affichage du jeu du casse_brique
 Il reste à tester le programme pour voir les potentiels problèmes
 """
 import tkinter as tk
+from balle import Balle
+from brique import Brique
+from raquette import Raquette
 
 
 class Affichage:
@@ -13,8 +16,8 @@ class Affichage:
         self.root = tk.Tk()
         self.canva = tk.Canvas(self.root, width = largeur, height = hauteur, bg = 'white')
         self.canva.pack()
-        self.largeur = largeur
-        self.hauteur = hauteur
+        self.width = largeur
+        self.height = hauteur
 
     def balle_affichage(self, balle):
 
@@ -36,7 +39,7 @@ class Affichage:
 
         self.brique = self.canva.create_rectangle(
             brique.x, brique.y,
-            brique.x + brique.largeur, brique.y + brique.hauteur,
-            fill = brique.couleur
+            brique.x + brique.width, brique.y + brique.height,
+            fill = brique.color
         )
 
