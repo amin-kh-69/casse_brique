@@ -24,11 +24,13 @@ class AffichageMenuAnimé:
         self.titre = self.canvas.create_text(400, 100, text="CASSE-BRIQUE", font=("Helvetica", 48, "bold"), fill="white")
 
         # Boutons Jouer et Quitter
+        self.bouton_credits = tk.Button(self.root, text="Crédits", font=("Helvetica", 24), width=10, command=self.afficher_credits)
         self.bouton_jouer = tk.Button(self.root, text="Jouer", font=("Helvetica", 24), width=10, command=self.lancer_jeu)
         self.bouton_quitter = tk.Button(self.root, text="Quitter", font=("Helvetica", 24), width=10, command=self.root.destroy)
 
         # Position boutons sur le canvas
         self.canvas.create_window(400, 300, window=self.bouton_jouer)
+        self.canvas.create_window(400, 350, window=self.bouton_credits)
         self.canvas.create_window(400, 400, window=self.bouton_quitter)
 
         # Création des briques animées
@@ -62,6 +64,11 @@ class AffichageMenuAnimé:
     def lancer_jeu(self):
         self.root.destroy()
         CasseBrique()
+
+    def afficher_credits(self):
+        self.canvas.delete("credits")  
+        self.canvas.create_text(400, 550, text="AMIN KOUHOUCH / SOULEYMANE GHAMHI", font=("Helvetica", 24, "bold"), fill="white", tags="credits")
+        self.root.after(3000, lambda: self.canvas.delete("credits"))
 
 
 if __name__ == "__main__":
