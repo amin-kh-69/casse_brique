@@ -1,7 +1,14 @@
 """Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
-Ce fichier contient la classe d'affichage du jeu du casse_brique
+Cette partie contient la classe AffichageMenuAnimé responsable de la création et de l’animation
+du menu principal du jeu Casse-Brique. Il gère l’affichage du titre les boutons d’interaction
+(Jouer, Crédits, Quitter) ainsi qu’une animation des briques au fond
+L’objectif est d’offrir une interface d’accueil dynamique avant le lancement du jeu principal
+ 
 
-Il reste à tester le programme pour voir les potentiels problèmes
+Il reste à :
+- Tester le bon fonctionnement de l’interface graphique (affichage, boutons, animations).
+- Vérifier la transition entre le menu et le lancement du jeu (fonction `lancer_jeu`).
+- Il reste à tester le programme pour voir les potentiels problèmes
 """
 from jeu import CasseBrique
 import tkinter as tk
