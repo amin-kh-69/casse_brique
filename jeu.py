@@ -1,7 +1,16 @@
 """ Amin Kouhouch, Souleymane Ghamhi, 3ETI Jeudi 16 Octobre
-Ce fichier python contient le code du jeu du cassse briques
-
-Il reste à tester le programme pour voir les potentiels problèmes
+Ce fichier Python contient le code principal du jeu du **Casse-Brique**.  
+Il regroupe les éléments essentiels du jeu :
+- la raquette contrôlée par le joueur,
+- la balle en mouvement,
+- les briques à détruire.
+Il permet de :
+- Gestion du score et des vies.
+- Déplacement fluide de la raquette via les flèches gauche/droite.
+- Détection des collisions entre la balle, la raquette et les briques.
+- Fin de partie affichant "Perdu !" ou "Victoire !" selon le résultat.
+Il reste à :
+- Tester le programme pour identifier d’éventuels problèmes de collisions ou de synchronisation.
 """
 
 import tkinter as tk
@@ -11,40 +20,40 @@ from balle import Balle
 from brique import Brique
 
 class CasseBrique:
-    def __init__(self):
+    def __init__(self): # Création de la fenêtre principale
         self.root = tk.Tk()
         self.root.title('Casse-Brique - CPE 3ETI')
         self.canvas = tk.Canvas(self.root, width=800, height=600, bg='black')
         self.canvas.pack()
 
-        self.briques = []
+        self.briques = [] # Liste des briques à casser
         self._creer_briques()
         self.raquette = Raquette(self.canvas)
         self.balle = Balle(self.canvas, self.raquette, self.briques)
 
-        self.score = 0
+        self.score = 0      # Initialisation du score et des vies
         self.vies = 3
         self.label = tk.Label(self.root, text=f'Score: {self.score}   Vies: {self.vies}', font=('Arial', 12))
         self.label.pack()
 
-        self.root.bind('<Left>', lambda e: self.raquette.set_direction(-1))
+        self.root.bind('<Left>', lambda e: self.raquette.set_direction(-1))     # Gestion des entrées clavier pour contrôler la raquette
         self.root.bind('<Right>', lambda e: self.raquette.set_direction(1))
         self.root.bind('<KeyRelease>', self.raquette.stop)
 
-        self._loop()
+        self._loop()   # Démarrage de la boucle principale du jeu
         self.root.mainloop()
 
     def _creer_briques(self):
         couleurs = ['#FF6666', '#FFB266', '#FFFF66', '#66FF66', '#66FFFF']
-        for i in range(5):
-            for j in range(10):
+        for i in range(5): # 5 lignes de briques
+            for j in range(10): # 10 briques par ligne
                 x = 60 + j * 70
                 y = 50 + i * 25
                 b = Brique(self.canvas, x, y, 60, 20, couleur=couleurs[i % len(couleurs)])
                 self.briques.append(b)
 
-    def _loop(self):
-        self.raquette.deplacer()
+    def _loop(self):    # Vérifie si la balle est perdue
+        self.raquette.deplacer() 
         self.balle.move()
 
         if self.balle.lost:
@@ -52,7 +61,7 @@ class CasseBrique:
             if self.vies == 0:
                 self._fin_jeu('Perdu !')
                 return
-            else:
+            else:  # Réinitialise la balle pour continuer la partie
                 self.canvas.delete(self.balle.id)
                 self.balle = Balle(self.canvas, self.raquette, self.briques)
 
@@ -60,12 +69,12 @@ class CasseBrique:
             self._fin_jeu('Victoire !')
             return
 
-        self.label.config(text=f'Score: {self.score + (50 * (50 - len(self.briques)))}   Vies: {self.vies}')
-        self.root.after(15, self._loop)
+        self.label.config(text=f'Score: {self.score + (50 * (50 - len(self.briques)))}   Vies: {self.vies}')    # Mise à jour du score (chaque brique détruite vaut 50 points)
+        self.root.after(15, self._loop)        # Relance la boucle toutes les 15 ms
 
     def _fin_jeu(self, msg):
         self.canvas.create_text(400, 300, text=msg, fill='white', font=('Helvetica', 36))
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # Lancement du jeu uniquement si le fichier est exécuté directement
     CasseBrique()
