@@ -18,6 +18,8 @@ import random
 from raquette import Raquette
 from balle import Balle
 from brique import Brique
+from collections import deque
+from bonus import Bonus
 
 class CasseBrique:
     def __init__(self): # Création de la fenêtre principale
@@ -36,13 +38,16 @@ class CasseBrique:
         self.label = tk.Label(self.root, text=f'Score: {self.score}   Vies: {self.vies}', font=('Arial', 12))
         self.label.pack()
 
+        self.bonus = Bonus()
+
         self.root.bind('<Left>', lambda e: self.raquette.set_direction(-1))     # Gestion des entrées clavier pour contrôler la raquette
         self.root.bind('<Right>', lambda e: self.raquette.set_direction(1))
         self.root.bind('<KeyRelease>', self.raquette.stop)
+        self.root.bind('<A>', self.activer_bonus())
 
         self._loop()   # Démarrage de la boucle principale du jeu
         self.root.mainloop()
-
+        
     def _creer_briques(self):
         couleurs = ['#FF6666', '#FFB266', '#FFFF66', '#66FF66', '#66FFFF']
         for i in range(5): # 5 lignes de briques
@@ -51,6 +56,13 @@ class CasseBrique:
                 y = 50 + i * 25
                 b = Brique(self.canvas, x, y, 60, 20, couleur=couleurs[i % len(couleurs)])
                 self.briques.append(b)
+    
+    def activer_bonus(self):
+        bonus = self.balle.stock_bonus.pop()
+        if bonus == 'agrandir_raquette':
+            self.bonus.agrandir()
+        elif bonus == 'ralentir_balle':
+            self.bonus.ralentir()
 
     def _loop(self):    # Vérifie si la balle est perdue
         self.raquette.deplacer() 
