@@ -29,5 +29,12 @@ La partie est gagnée lorsque toutes les briques destructibles ont disparu.
 
 Elle est perdue si la balle tombe en dehors de la zone de jeu .
 
+Améliorations possibles : 
+
+Bug des collisions entre la balle et les briques.
+
+Les bonus sont utilisables mais on ne voit pas quand on les a sur le jeu. 
+
+définir l'angle de départ de la balle apres collision avec la raquette en focntion de l'endroit ou la balle touche la raquette.
 
 lien Git : https://github.com/amin-kh-69/casse_brique.git
