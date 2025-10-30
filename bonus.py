@@ -1,6 +1,16 @@
 """ 
 Amin Kouhouch, Souleymane Ghamhi, 3ETI, Jeudi 30 octobre 2025
 
+Cette partie définit la classe Bonus. Elle définit les différents bonus
+potentiels du joueur, ainsi que le temps actif de ces derniers.
+
+Fonctions principales : 
+    - définit les bonus et leurs effets
+    - définit le temps actif des bonus
+
+Possibles améliorations :
+    - Ajout de bonus/malus
+    -possibilité de gérer le temps actif des effets en fonction de l'avancement dans la partie
 """
 from balle import Balle
 from raquette import Raquette
