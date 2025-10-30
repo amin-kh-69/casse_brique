@@ -9,14 +9,18 @@ Fonctionnalités principales :
 - Gestion de la perte de balle (sortie par le bas de l’écran).
 
 Il reste à :
-- Tester la précision des collisions avec la raquette notament les coter verticale de la raquette et les briques.
-- Donc ajuster la vitesse et les angles de rebond 
+- Tester la précision des collisions avec la raquette notamment les cotés verticaux de la raquette et les briques.
+- Ajuster la vitesse et les angles de rebond 
 """
 import random
 import tkinter as tk
+from bonus import Bonus
+from collections import deque 
+
 
 class Balle:
-    def __init__(self, canvas, raquette, briques, couleur='red'):
+    def __init__(self, bonus, canvas, raquette, briques, couleur='red'):
+        self.bonus = bonus
         self.canvas = canvas
         self.raquette = raquette
         self.briques = briques
@@ -27,6 +31,7 @@ class Balle:
         self.lost = False    # Indique si la balle est perdue (tombée en bas)
 
     def move(self):
+        self.stock_bonus = deque(maxlen = 2)
         self.canvas.move(self.id, self.vx, self.vy)
         pos = self.canvas.coords(self.id) # coordonnées actuelles de la balle
 
@@ -50,6 +55,12 @@ class Balle:
                 self.vy = -self.vy
                 brique.detruire()
                 self.briques.remove(brique) # retire la brique de la liste
+                if random.randint(1, 10) == 5:
+                    if random.randint(1, 2) == 1:
+                        self.stock_bonus.append(self.bonus.agrandir_raquette)
+                    else : 
+                        self.stock_bonus.append(self.bonus.ralentir_balle)
+                    
 
     def _collision(self, obj_id):
         pos_balle = self.canvas.coords(self.id)
