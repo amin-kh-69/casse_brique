@@ -1,4 +1,7 @@
 # casse_brique Amin Kouhouch Souleymane Ghamhi 3ETI 
+
+LANCER LE MENU POUR JOUER
+
 Les règles du jeu Casse-Brique
 
 Le Casse-Brique est un jeu vidéo classique dont le principe est simple : détruire toutes les briques présentes à l’écran à l’aide d’une balle rebondissante. Le joueur contrôle une raquette située en bas de l’écran, qu’il déplace horizontalement pour faire rebondir la balle et éviter qu’elle ne tombe.
